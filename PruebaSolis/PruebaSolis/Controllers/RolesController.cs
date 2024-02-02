@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using PruebaSolis.Models;
 using System;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace PruebaSolis.Controllers
 {
     [Route("api/[controller]")]
@@ -27,9 +25,9 @@ namespace PruebaSolis.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<Rol>> GetRol(int id)
+        public async Task<ActionResult<Rol>> GetRol(int Id)
         {
-            var rol = await _dbContext.Roles.FindAsync(id);
+            var rol = await _dbContext.Roles.FindAsync(Id);
 
             if (rol == null)
             {
@@ -48,10 +46,10 @@ namespace PruebaSolis.Controllers
             return CreatedAtAction(nameof(GetRol), new { id = rol.Id }, rol);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRol(int id, Rol rol)
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> PutRol(int Id, Rol rol)
         {
-            if (id != rol.Id)
+            if (Id != rol.Id)
             {
                 return BadRequest();
             }
@@ -64,7 +62,7 @@ namespace PruebaSolis.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RolExists(id))
+                if (!RolExists(Id))
                 {
                     return NotFound();
                 }
@@ -74,27 +72,27 @@ namespace PruebaSolis.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(rol);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRol(int id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteRol(int Id)
         {
-            var person = await _dbContext.Roles.FindAsync(id);
-            if (person == null)
+            var rol = await _dbContext.Roles.FindAsync(Id);
+            if (rol == null)
             {
                 return NotFound();
             }
 
-            _dbContext.Roles.Remove(person);
+            _dbContext.Roles.Remove(rol);
             await _dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
-        private bool RolExists(int id)
+        private bool RolExists(int Id)
         {
-            return _dbContext.Roles.Any(e => e.Id == id);
+            return _dbContext.Roles.Any(e => e.Id == Id);
         }
     }
 }

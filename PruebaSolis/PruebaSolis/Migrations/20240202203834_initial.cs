@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PruebaSolis.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Empleado",
+                name: "Empleados",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,13 +20,13 @@ namespace PruebaSolis.Migrations
                     NombreEmpleado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaIngreso = table.Column<DateOnly>(type: "date", nullable: false),
                     RFC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StatusEmpleado = table.Column<bool>(type: "bit", nullable: false),
+                    StatusEmpleado = table.Column<int>(type: "int", nullable: false),
                     IdRol = table.Column<int>(type: "int", nullable: false),
                     IdSucursal = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Empleado", x => x.Id);
+                    table.PrimaryKey("PK_Empleados", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,17 +44,17 @@ namespace PruebaSolis.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sucursal",
+                name: "Sucursales",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NombreSucursal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StatusSucursal = table.Column<bool>(type: "bit", nullable: false)
+                    StatusSucursal = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sucursal", x => x.Id);
+                    table.PrimaryKey("PK_Sucursales", x => x.Id);
                 });
         }
 
@@ -62,13 +62,13 @@ namespace PruebaSolis.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Empleado");
+                name: "Empleados");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Sucursal");
+                name: "Sucursales");
         }
     }
 }

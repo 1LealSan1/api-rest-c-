@@ -12,8 +12,8 @@ using PruebaSolis.Context;
 namespace PruebaSolis.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240202080112_Initial")]
-    partial class Initial
+    [Migration("20240202203834_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,12 +50,12 @@ namespace PruebaSolis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("StatusEmpleado")
-                        .HasColumnType("bit");
+                    b.Property<int>("StatusEmpleado")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Empleado");
+                    b.ToTable("Empleados");
                 });
 
             modelBuilder.Entity("PruebaSolis.Models.Rol", b =>
@@ -90,12 +90,12 @@ namespace PruebaSolis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("StatusSucursal")
-                        .HasColumnType("bit");
+                    b.Property<int>("StatusSucursal")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sucursal");
+                    b.ToTable("Sucursales");
                 });
 #pragma warning restore 612, 618
         }
