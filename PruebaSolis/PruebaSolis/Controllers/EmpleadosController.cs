@@ -47,8 +47,21 @@ namespace PruebaSolis.Controllers
         [HttpPost]
         public async Task<ActionResult<Empleado>> PostEmpleado(Empleado empleado)
         {
-            _dbContext.Empleados.Add(empleado);
-            await _dbContext.SaveChangesAsync();
+            //validamos si el tipo de dato de la las propiedades del cuerpo coinciden con el tipo de dato del modelo
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _dbContext.Empleados.Add(empleado);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
 
             return CreatedAtAction(nameof(GetEmpleado), new { id = empleado.Id }, empleado);
         }
@@ -56,15 +69,20 @@ namespace PruebaSolis.Controllers
         [HttpPut("{Id}")]
         public async Task<IActionResult> PutEmpleado(int Id, Empleado empleado)
         {
+            //validamos si el id de la url y el del body coinciden
             if (Id != empleado.Id)
             {
                 return BadRequest();
             }
-
-            _dbContext.Entry(empleado).State = EntityState.Modified;
+            //validamos si el tipo de dato de la las propiedades del cuerpo coinciden con el tipo de dato del modelo
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             try
             {
+                _dbContext.Entry(empleado).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

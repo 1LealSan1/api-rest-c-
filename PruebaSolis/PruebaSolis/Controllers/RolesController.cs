@@ -40,8 +40,21 @@ namespace PruebaSolis.Controllers
         [HttpPost]
         public async Task<ActionResult<Rol>> PostRol(Rol rol)
         {
-            _dbContext.Roles.Add(rol);
-            await _dbContext.SaveChangesAsync();
+            //validamos si el tipo de dato de la las propiedades del cuerpo coinciden con el tipo de dato del modelo
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _dbContext.Roles.Add(rol);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
 
             return CreatedAtAction(nameof(GetRol), new { id = rol.Id }, rol);
         }
@@ -49,15 +62,20 @@ namespace PruebaSolis.Controllers
         [HttpPut("{Id}")]
         public async Task<IActionResult> PutRol(int Id, Rol rol)
         {
+            //validamos si el id de la url y el del body coinciden
             if (Id != rol.Id)
             {
                 return BadRequest();
             }
-
-            _dbContext.Entry(rol).State = EntityState.Modified;
+            //validamos si el tipo de dato de la las propiedades del cuerpo coinciden con el tipo de dato del modelo
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             try
             {
+                _dbContext.Entry(rol).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
